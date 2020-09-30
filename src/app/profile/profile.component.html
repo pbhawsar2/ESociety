@@ -1,0 +1,73 @@
+<form [formGroup]="ProfilePage">
+    <ul class="nav justify-content-end" style="background-color:#073642;">
+        <li class="nav nav-pills">
+            <a class="nav-link" (click)="RedirectToUserPage()" style="color:white; font-size: large;">Name : {{MiModel.Name}}</a>
+        </li>
+        <li class="nav nav-pills">
+            <a class="nav-link" style="color:white;font-size: large;">SMID : {{MiModel.SMID}}</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" style="color:white;font-size: large;">Account Type : {{MiModel.AccountType}}</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" routerLink="/ProfilePage" style="font-size: large;color:yellow;"> Profile </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#" style="font-size: large;color:turquoise">LogOut</a>
+        </li>
+    </ul>
+    <br>
+    <table align="center" class="table" style="color: white;background-color: #073642;width: 60%;">
+        <tr>
+            <td style="font-size: large;font-weight: bold;">Profile : {{MiModel.Name}}</td>
+        </tr>
+    </table>
+    <table align="center" border="2" class="table" style="width: 60%;">
+        <tr>
+            <th>SMID</th>
+            <td><input type="number" value="{{MiModel.SMID}}" [disabled]="true" /></td>
+            <th>Email</th>
+            <td><input type="email" value="{{MiModel.Email}}" [disabled]="true" /></td>
+        </tr>
+        <tr>
+            <th>Contact No</th>
+            <td><input type="number" value="{{MiModel.ContactNumber}}" [disabled]="true" /></td>
+            <th>Address</th>
+            <td><textarea value="{{MiModel.Address}}" rows="2" cols="25" [disabled]="true"></textarea></td>
+        </tr>
+        <tr>
+            <th>House No</th>
+            <td><input type="text" value="{{MiModel.HouseNo}}" [disabled]="true" /></td>
+            <th>Business Name</th>
+            <td><input type="text" value="{{MiModel.BusinessName}}" [disabled]="true" /></td>
+        </tr>
+        <tr>
+            <th>Rent</th>
+            <td><input type="number" value="{{MiModel.Rent}}" [disabled]="true" /></td>
+            <td></td>
+            <td></td>
+        </tr>
+    </table>
+    <table align="center" border="2" class="table" style="width: 60%;">
+        <tr>
+            <th>Enter New Password</th>
+            <td><input formControlName="NewPassword" type="text" /></td>
+            <td><button type="button" (click)="UpdatePassword()" class="btn btn-success">Update Password</button></td>
+        </tr>
+    </table>
+</form>
+<div align="center" *ngIf="Alert1" class="alert alert-success alert-dismissible fade show" role="alert"
+    style="align-items: center;">
+    <strong> {{AlertMessage}}</strong> 
+    <button type="button" (click)="CloseAlert()" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div align="center" *ngIf="Alert" class="alert alert-danger alert-dismissible fade show" role="alert"
+    style="align-items: center;">
+    <strong>{{AlertMessage}}</strong>
+    <button type="button" (click)="CloseAlert()" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<router-outlet></router-outlet>

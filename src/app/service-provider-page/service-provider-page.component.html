@@ -1,0 +1,123 @@
+<form [formGroup]="ServiceProviderPage">
+    <ul class="nav justify-content-end" style="background-color:#073642;">
+        <li class="nav nav-pills">
+            <a class="nav-link" style="color: yellow;font-size: large;">Name : {{MiModel.Name}}</a>
+        </li>
+        <li class="nav nav-pills">
+            <a class="nav-link" style="color:white;font-size: large;">SMID : {{MiModel.SMID}}</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" style="color:white;font-size: large;">Account Type : {{MiModel.AccountType}}</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" routerLink="/ProfilePage" style="font-size: large;color: white;"> Profile </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#" style="font-size: large;color: turquoise;">LogOut</a>
+        </li>
+    </ul>
+    <mat-tab-group [backgroundColor]="bgColor">
+        <mat-tab label="Announcements"><br>
+            <button type="button" (click)="RefreshMessages()" style="margin-left: 10%;" class="btn btn-warning">
+              Broadcast From Management Team&nbsp;&nbsp;<span class="badge badge-light">{{count}}</span>
+            </button>
+            <table align="center" class="table" style="width: 80%;">
+                <tr *ngFor="let item of MsgFromTeamList">
+                    <td>
+                        <div style="width: 80%;" class="alert alert-warning" role="alert" style="align-items: center;">
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                            <h6 class="alert-heading" style="color:#272b30;">
+                                From&nbsp;:&nbsp;{{item.Name}}&nbsp;&nbsp;|&nbsp;
+                                Account&nbsp;:&nbsp;{{item.AccountType}}&nbsp;&nbsp;|&nbsp;Date&nbsp;:&nbsp;{{item.DateTime}}
+                            </h6>
+                            <hr>
+                            <p>Title&nbsp;:&nbsp;{{item.MessageTitle}}</p>
+                            <p>Message&nbsp;:&nbsp;{{item.Message}}</p>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </mat-tab>
+        <mat-tab label="Broadcasted Messages">
+            <br>
+            <button type="button" style="margin-left: 10%;" class="btn btn-dark">
+                Broadcasted Messages&nbsp;&nbsp;<span class="badge badge-light">{{count1}}</span>
+            </button>
+            <table align="center" class="table" style="width: 80%;">
+                <tr *ngFor="let item of SentMessageList">
+                    <td>
+                        <div style="width: 80%;" class="alert alert-dark" role="alert" style="align-items: center;">
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                            <h5 class="alert-heading" style="color:#272b30;">Sent on : {{item.DateTime}}</h5>
+                            <hr>
+                            <p>Title : {{item.MessageTitle}}</p>
+                            <p>Message : {{item.Message}}</p>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </mat-tab>
+        <mat-tab label="Broadcast Message">
+            <br>
+            <table border="2" align="center" class="table" style="width: 40%;;">
+                <tr style="color: black;background-color:#ffc107;">
+                    <th>Broadcast Message</th>
+                </tr>
+                <tr>
+                    <td><input formControlName="MessageTitle" type="text" placeholder="Title"></td>
+                </tr>
+                <tr>
+                    <td>
+                        <textarea formControlName="Message" rows="4" cols="60"
+                            placeholder="Type Message Here"></textarea>
+                    </td>
+                </tr>
+                <tr>
+                    <td><button type="button" (click)="Broadcast()" class="btn btn-success">Broadcast
+                            Message</button>&nbsp;
+                        <button type="button" (click)="DeleteAllBroadcast()" class="btn btn-danger">Delete All
+                            Broadcast</button></td>
+                </tr>
+            </table>
+        </mat-tab>
+        <mat-tab label="Management Team Members">
+            <br>
+            <table border="2" align="center" class="table table-striped">
+                <thead style="color: white;background-color:#073642;">
+                    <tr>
+                        <th>Name</th>
+                        <th>ContactNo</th>
+                        <th>Email</th>
+                        <th>Address</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of TeamList">
+                        <td>{{item.Name}}</td>
+                        <td>{{item.ContactNumber}}</td>
+                        <td>{{item.Email}}</td>
+                        <td>{{item.Address}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </mat-tab>
+    </mat-tab-group>
+</form>
+<div align="center" *ngIf="Alert" class="alert alert-success alert-dismissible fade show" role="alert"
+    style="align-items: center;">
+    <strong> {{AlertMessageTitle}} </strong> {{AlertMessage}}
+    <button type="button" (click)="CloseAlert()" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div align="center" *ngIf="Alert2" class="alert alert-danger alert-dismissible fade show" role="alert"
+    style="align-items: center;">
+    <strong>{{AlertMessage}}</strong>
+    <button type="button" (click)="CloseAlert()" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>

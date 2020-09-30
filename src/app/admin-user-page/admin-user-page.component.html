@@ -1,0 +1,240 @@
+<form [formGroup]="AdminPage">
+    <ul class="nav justify-content-end" style="background-color:#073642;">
+        <li class="nav nav-pills">
+            <a class="nav-link" style="color: yellow;font-size: large;">Name : {{MiModel.Name}}</a>
+        </li>
+        <li class="nav nav-pills">
+            <a class="nav-link" style="color:white;font-size: large;">SMID : {{MiModel.SMID}}</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" style="color:white;font-size: large;">Account Type : {{MiModel.AccountType}}</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" routerLink="/ProfilePage" style="font-size: large;color: white;"> Profile </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#" style="font-size: large;color: turquoise;">LogOut</a>
+        </li>
+    </ul>
+    <mat-tab-group [backgroundColor]="bgColor">
+<!--Tab 1 Display Broadcasted messages-->
+        <mat-tab label="Broadcasted Messages">
+            <br>
+            <button type="button" style="margin-left: 10%;" class="btn btn-dark">
+                Broadcasted Messages&nbsp;&nbsp;<span class="badge badge-light">{{count}}</span>
+            </button>
+            <table align="center" class="table" style="width: 80%;">
+                <tr *ngFor="let item of SentMessageList">
+                    <td>
+                        <div style="width: 80%;" class="alert alert-dark" role="alert" style="align-items: center;">
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                            <h5 class="alert-heading" style="color:#272b30;">Sent on : {{item.DateTime}}</h5>
+                            <hr>
+                            <p>Title : {{item.MessageTitle}}</p>
+                            <p>Message : {{item.Message}}</p>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </mat-tab>
+<!--Tab 2 Broadcast Message-->
+        <mat-tab label="Broadcast Message">
+            <br>
+            <table border="2" align="center" class="table" style="width: 40%;;">
+                <tr style="color: black;background-color:#ffc107;">
+                    <th>Broadcast Message</th>
+                </tr>
+                <tr>
+                    <td><input formControlName="MessageTitle" type="text" placeholder="Title"></td>
+                </tr>
+                <tr>
+                    <td>
+                        <textarea formControlName="Message" rows="4" cols="60"
+                            placeholder="Type Message Here"></textarea>
+                    </td>
+                </tr>
+                <tr>
+                    <td><button type="button" (click)="Broadcast()" class="btn btn-success">Broadcast
+                            Message</button>&nbsp;
+                        <button type="button" (click)="DeleteAllBroadcast()" class="btn btn-danger">Delete All
+                            Broadcast</button></td>
+                </tr>
+            </table>
+        </mat-tab>
+<!--Tab 3 Promotions Broadcast from service providers-->
+        <mat-tab label="Promotions"><br>
+            <button type="button" (click)="RefreshMessages()" style="margin-left: 10%;" class="btn btn-success">
+               Broadcast From Service Providers&nbsp;&nbsp;<span class="badge badge-light">{{count1}}</span>
+            </button>
+            <table align="center" class="table" style="width: 80%;">
+                <tr *ngFor="let item of MsgFromServicePList">
+                    <td>
+                        <div style="width: 80%;" class="alert alert-success" role="alert" style="align-items: center;">
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                            <h6 class="alert-heading" style="color:#272b30;">
+                                From&nbsp;:&nbsp;{{item.Name}}&nbsp;&nbsp;|&nbsp;SMID&nbsp;:&nbsp;{{item.SMID}}&nbsp;&nbsp;|&nbsp;
+                                Account&nbsp;:&nbsp;{{item.AccountType}}&nbsp;&nbsp;|&nbsp;Date&nbsp;:&nbsp;{{item.DateTime}}
+                            </h6>
+                            <hr>
+                            <p>Title&nbsp;:&nbsp;{{item.MessageTitle}}</p>
+                            <p>Message&nbsp;:&nbsp;{{item.Message}}</p>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </mat-tab>
+<!--Tab 4 Add Member-->
+        <mat-tab label="Add New Member"><br>
+            <table align="center" class="table" style="color: white;background-color: #073642;width: 60%;">
+                <tr>
+                    <th>Add Member&nbsp;</th>
+                </tr>
+            </table>
+            <table align="center" border="2" class="table" style="width: 60%;">
+                <tr>
+                    <th>Name</th>
+                    <td><input formControlName="Name" type="text" /></td>
+                    <th>Contact No</th>
+                    <td><input formControlName="ContactNumber" type="number" /></td>
+                </tr>
+                <tr>
+                    <th>Email</th>
+                    <td><input formControlName="Email" type="email" /></td>
+                    <th>Address</th>
+                    <td><input formControlName="Address" type="text" /></td>
+                </tr>
+                <tr>
+                    <th>Select Account Type</th>
+                    <td><select class="form-control" formControlName="AccountType" style="width: 200px;">
+                            <option value="Admin">Admin</option>
+                            <option value="SocietyMember">Society Member</option>
+                            <option value="ServiceProvider">Service Provider</option>
+                        </select>
+                    </td>
+                    <th>House Number</th>
+                    <td><input formControlName="HouseNo" type="text" /></td>
+                </tr>
+                <tr>
+                    <th>Business Name</th>
+                    <td><input formControlName="BusinessName" type="text" /></td>
+                    <th>Rent</th>
+                    <td><input formControlName="Rent" type="number" /></td>
+                </tr>
+                <tr>
+                    <td><button type="button" (click)="AddMember()" class="btn btn-success">Insert User</button></td>
+                </tr>
+            </table>
+        </mat-tab>
+<!--Tab 5 Show All Members-->
+        <mat-tab label="Show All Member"><br>
+            <table align="center" class="table table-striped" border="2">
+                <thead style="color: white;background-color:#073642;" >
+                    <tr>
+                        <th>SMID</th>
+                        <th>Name</th>
+                        <th>AccountType</th>
+                        <th>Email</th>
+                        <th>ContactNo</th>
+                        <th>HouseNo</th>
+                        <th>Address</th>
+                        <th>Business</th>
+                        <th>Rent</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of result">
+                        <td>{{item.SMID}}</td>
+                        <td>{{item.Name}}</td>
+                        <td>{{item.AccountType}}</td>
+                        <td>{{item.Email}}</td>
+                        <td>{{item.ContactNumber}}</td>
+                        <td>{{item.HouseNo}}</td>
+                        <td>{{item.Address}}</td>
+                        <td>{{item.BusinessName}}</td>
+                        <td>{{item.Rent}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </mat-tab>
+<!--Tab 6 Search / Update / Remove Account-->
+        <mat-tab label="Search / Update / Remove Member Account"><br>
+            <table align="center" class="table" style="color: white;background-color: #073642;width: 60%;">
+                <tr>
+                    <th>Search Account By SMID To Update / Delete</th>
+                </tr>
+            </table>
+            <table align="center" border="2" class="table" style="width: 60%;">
+                <tr>
+                    <th>SMID</th>
+                    <td><input formControlName="SMID1" type="number" /></td>
+                    <td><button type="button" (click)="Search()" class="btn btn-primary">Search</button></td>
+                    <td *ngIf="RemoveUpdateBtn"><button type="button" (click)="RemoveMember()"
+                            class="btn btn-danger">Remove Account</button></td>
+                </tr>
+                <tr>
+                    <th>Name</th>
+                    <td><input formControlName="Name1" type="text" /></td>
+                    <th>Contact No</th>
+                    <td><input formControlName="ContactNumber1" type="number" /></td>
+                </tr>
+                <tr>
+                    <th>Email</th>
+                    <td><input formControlName="Email1" type="email" /></td>
+                    <th>Address</th>
+                    <td><input formControlName="Address1" type="text" /></td>
+                </tr>
+                <tr>
+                    <th>Select Account Type</th>
+                    <td><select class="form-control" formControlName="AccountType1" style="width: 200px;">
+                            <option value="Admin">Admin</option>
+                            <option value="SocietyMember">Society Member</option>
+                            <option value="ServiceProvider">Service Provider</option>
+                        </select>
+                    </td>
+                    <th>House Number</th>
+                    <td><input formControlName="HouseNo1" type="text" /></td>
+                </tr>
+                <tr>
+                    <th>Business Name</th>
+                    <td><input formControlName="BusinessName1" type="text" /></td>
+                    <th>Rent</th>
+                    <td><input formControlName="Rent1" type="number" /></td>
+                </tr>
+                <tr>
+                    <td *ngIf="RemoveUpdateBtn"><button type="button" (click)="UpdateInfo()"
+                        class="btn btn-warning">Update Information</button></td>
+                </tr>
+            </table>
+        </mat-tab>
+    </mat-tab-group>
+</form>
+<br>
+<!--Alerts-->
+<div align="center" *ngIf="Alert" class="alert alert-success alert-dismissible fade show" role="alert"
+    style="align-items: center;">
+    <strong> {{AlertMessageTitle}} </strong> {{AlertMessage}}
+    <button type="button" (click)="CloseAlert()" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div align="center" *ngIf="Alert2" class="alert alert-danger alert-dismissible fade show" role="alert"
+    style="align-items: center;">
+    <strong>{{AlertMessage}}</strong>
+    <button type="button" (click)="CloseAlert()" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div *ngIf="Alert3" align="center" class="alert alert-danger" role="alert" style="align-items: center;">
+    <button type="button" (click)="CloseAlert()" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+    <h4 class="alert-heading">Operation Unsuccessful ! </h4>
+    <p>Sorry, You can not remove your own account.</p>
+    <hr>
+    <p class="mb-0">"Admin Account" can only be deleted by another admin account, at least one admin account is required
+        for functionality of the system.</p>
+</div>
